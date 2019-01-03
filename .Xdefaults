@@ -1,1 +1,91 @@
-.Xresources
+*.font: Liberation Mono:pixelsize=24:antialias=true:autohint=true;
+font pango:DejaVu Sans Mono 18
+Xft.dpi: 164
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+*foreground: #00cc00
+*foreground_bold: #a8a19f
+*cursor: #a8a19f
+*background: #1b1918
+!!*background: rgba(0, 0, 0, .7)
+
+
+!! Text color
+*color12: #ffffff
+
+!! Directory color
+*color4: #ae81ff
+
+!! Green (username)
+*color2: #a6e22d
+*color10: #a6e22d
+
+!! Reds (git)
+*color1: #e73c50
+*color9: #e73c50
+
+!! Blacks
+*color0: #1b1b1b
+*color8: #767676
+
+!! Orange
+*color3: #fd9720
+
+!! Yellow
+*color11: #e6dB74
+
+!! Magenta
+*color5: #f92772
+*color13: #f92772
+
+!! Cyan
+*color6: #66d9ef
+*color14: #66d9ef
+
+!! Whites and grays
+*color7: #75715e
+*color15: #fe8e8e
+
+
+URxvt.intensityStyles:	false
+URxvt.background:       [70]#000000
+URxvt.depth:		32
+
+URxvt.font:         xft:FiraMono-Regular:size=18
+URxvt.scrollBar:	false
+URxvt.cursorColor:	white
+
+!! Extensions
+URxvt.perl-ext-common:	default,matcher,resize-font,url-select,keyboard-select
+URxvt.colorUL:		#4682B4
+!! url-select
+URxvt.keysym.M-u:	perl:url-select:select_next
+URxvt.url-select.launcher: linkhandler
+URxvt.url-select.underline: true
+!! keyboard-select:
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+!! resize-font
+URxvt.resize-font.smaller:	C-Down
+URxvt.resize-font.bigger:	C-Up
+!! Matcher
+URxvt.url-launcher:	linkhandler
+URxvt.matcher.button:	1
+
+rofi.color-enabled:	true
+rofi.color-window:	#000, #000, #000
+rofi.color-normal:	#111, #819396, #222, #008ed4, #ffffff
+rofi.color-active:	#002b37, #008ed4, #003643, #008ed4, #66c6ff
+rofi.color-urgent:	#002b37, #da4281, #003643, #008ed4, #890661
+
+rofi.fake-transparency:	true
+rofi.lines:		3
+rofi.bw:		0
+rofi.opacity:		"10"
+rofi.hide-scrollbar:	true
+rofi.width:		30
+

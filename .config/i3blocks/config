@@ -1,70 +1,82 @@
-command=~/.scripts/statusbar/$BLOCK_NAME
+command=/usr/lib/i3blocks/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
 [record]
-command=cat /tmp/recordingicon
+command=cat ~/.recordingicon
 interval=once
 signal=9
 
-[music]
+[mpd]
 label=🎼
+command=i3mpd
 interval=once
 signal=11
 
 [news]
 label=📰
+command=i3news
 interval=once
 signal=6
 
-[pacpackages]
+[pacman]
 label=📦
+command=i3pacman
 interval=once
 signal=8
 
-[torrent]
+[torrents]
+command=i3torrent
 interval=20
 signal=7
 
 [weather]
+command=i3weather
 interval=3600
-signal=5
 
-[mailbox]
+[mail]
 label=📬
+command=i3mail
 interval=180
 signal=12
 
-#[memory]
-#interval=30
-#label=🧠
+[memory]
+command=i3mem
+interval=5
+label=🧠
 
-#[cpu]
-#interval=15
-#label=💻
+[cpu]
+command=i3cpu
+interval=5
+label=💻
 
 [volume]
 interval=once
+command=i3volume
 signal=10
 
-#[disk]
+#[diskspace]
 #interval=60
-#command=disk /
+#command=i3disk /
 
-#[disk]
+#[diskspace]
 #interval=60
-#command=disk /home 🏠
+#command=i3disk /home 🏠
 
 [battery]
-command=battery BAT0
+command=i3battery BAT0
 interval=5
 
-[clock]
+[time]
 label=📅
+command=i3date
 interval=30
 
 [internet]
+command=i3internet
 interval=10
 
 [help]
+command=i3help
 interval=once
+

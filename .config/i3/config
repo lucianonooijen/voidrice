@@ -1,27 +1,13 @@
 # vim: filetype=i3
-#  _        _    ____  ____ ____
-# | |      / \  |  _ \| __ ) ___|
-# | |     / _ \ | |_) |  _ \___ \
-# | |___ / ___ \|  _ <| |_) |__) |
-# |_____/_/   \_\_| \_\____/____/
-#
 # File originally by Luke Smith
-# Website: http://lukesmith.xyz
-# Email: luke@lukesmith.xyz
-# YouTube: https://youtube.com/c/LukeSmithxyz
-# Github: https://github.com/LukeSmithxyz
-
 # This config file will use environmental variables such as $BROWSER and $TERMINAL.
-# You can set these variables in ~/.profile or ~/.bash_profile if you have it as below:
-#
-# export BROWSER="firefox"
-# export TERMINAL="st"
+# You can set these variables in ~/.profile or ~/.bash_profile #
 
-# #---Basic Definitions---# #
+#---Basic Definitions---# #
 # Needed for i3-gaps
 for_window [class="^.*"] border pixel 2
 gaps inner 15
-gaps outer 15
+gaps outer 5
 set $term --no-startup-id $TERMINAL
 set $mod Mod4
 set $stoprec --no-startup-id dmenurecord kill
@@ -31,7 +17,6 @@ set $netrefresh --no-startup-id sudo -A systemctl restart NetworkManager
 set $hibernate sudo -A systemctl suspend
 
 # #---Dropdown Windows---# #
-
 # First I have a tmux window used for background scripts.
 # I'll later bind this to mod+u.
 for_window [instance="tmuxdd"] floating enable
@@ -49,8 +34,11 @@ for_window [instance="dropdowncalc"] border pixel 2
 for_window [instance="dropdowncalc"] sticky enable
 
 # #---Starting External Scripts---# #
-# Setting the background:
-exec --no-startup-id feh --bg-scale ~/.config/wall.png
+# Setting the background and colorscheme:
+# exec --no-startup-id wal -i ~/.config/wall.png >/dev/null
+# If you don't want to use wal, comment out the line above and uncomment this one:
+#exec --no-startup-id feh --bg-scale ~/.config/wall.png
+exec --no-startup-id feh --bg-fill ~/.config/wall.png
 # Starts dunst for notifications:
 exec --no-startup-id dunst
 # Composite manager:
@@ -60,11 +48,11 @@ exec --no-startup-id remaps
 # Unclutter makes the mouse invisible after a brief period
 exec --no-startup-id unclutter
 # Run the script to update the mpd i3block on change.
-exec_always --no-startup-id mpdupdate
+exec --no-startup-id i3mpdupdate
 # mpd startup
 exec --no-startup-id mpd
-# Podboat automatic queue and download
-exec_always --no-startup-id podentr
+# Luciano
+exec "xrandr --dpi 192"
 
 # Set Xresources colors:
 set_from_resource $darkblack	color0  #000000
@@ -93,7 +81,7 @@ client.urgent		$darkred	$darkred	$black		$darkred		$darkred
 client.background $black
 
 bar {
-	font pango:mono 10
+	font pango:mono 18
 	colors {
 			background $darkblack
 			statusline $darkwhite
@@ -109,6 +97,14 @@ bar {
 	modifier None
 }
 
+# #---Luciano Bindings---# #
+bindsym $mod+Control+c 		exec --no-startup-id code
+bindsym $mod+Control+m      exec --no-startup-id mattermost-desktop
+bindsym $mod+Control+s      exec --no-startup-id slack
+bindsym $mod+Control+g      exec --no-startup-id gitkraken
+bindsym $mod+Control+d      exec --no-startup-id dbeaver
+bindsym $mod+Control+w      exec --no-startup-id chromium
+
 # #---Basic Bindings---# #
 bindsym $mod+Return 		exec $term
 bindsym $mod+Shift+Return	exec --no-startup-id samedir
@@ -121,12 +117,11 @@ bindsym $mod+Shift+Escape 	exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
 
 # bindsym $mod+BackSpace
 bindsym $mod+Shift+BackSpace	exec --no-startup-id prompt "Reboot computer?" "$reboot"
-
 bindsym $mod+grave		exec --no-startup-id dmenuunicode
 ##bindsym $mod+asciitilde
 
 #STOP/HIDE EVERYTHING:
-bindsym $mod+Shift+Delete	exec --no-startup-id lmc truemute ; exec --no-startup-id lmc pause ; exec --no-startup-id pauseallmpv; workspace 0; exec $term -e htop ; exec $term -e ranger
+bindsym $mod+Shift+Delete	exec --no-startup-id lmc truemute ; exec $truepause ; exec --no-startup-id pauseallmpv; workspace 0; exec $term -e htop ; exec $term -e ranger
 
 # Show selection:
 bindsym $mod+Insert		exec --no-startup-id showclip
@@ -200,19 +195,20 @@ bindsym $mod+Shift+z		gaps outer current minus 5
 bindsym $mod+x			exec --no-startup-id lockscreen
 bindsym $mod+Shift+x		exec --no-startup-id prompt "Shutdown computer?" "$shutdown"
 
-#bindsym $mod+c
+bindsym $mod+c			exec --no-startup-id freealf
 bindsym $mod+Shift+c		exec --no-startup-id camtoggle
 
-#bindsym $mod+v
-#bindsym $mod+Shift+v
+bindsym $mod+v			exec $term -e ncmpcpp -s visualizer
+bindsym $mod+Shift+v		exec --no-startup-id projectM-pulseaudio
 
 bindsym $mod+b			bar mode toggle
 bindsym $mod+Shift+b		floating toggle; sticky toggle; exec --no-startup-id bottomleft
 
-bindsym $mod+n			exec $term -e newsboat && pkill -RTMIN+6 i3blocks
-bindsym $mod+Shift+n		floating toggle; sticky toggle; exec --no-startup-id bottomright
+bindsym $mod+n			exec $term -e newspod && pkill -RTMIN+6 i3blocks
+##bindsym $mod+Shift+n
 
-bindsym $mod+m 			exec --no-startup-id $term -e ncmpcpp
+bindsym $mod+m 			exec --no-startup-id spotify
+#bindsym $mod+m 			exec --no-startup-id $term -e ncmpcpp
 bindsym $mod+Shift+m		exec --no-startup-id lmc mute
 
 # #---Workspace Bindings---# #
@@ -297,7 +293,8 @@ bindsym $mod+F8		exec --no-startup-id ~/.config/mutt/etc/mailsync.sh
 bindsym $mod+F9		exec --no-startup-id dmenumount
 bindsym $mod+F10	exec --no-startup-id dmenuumount
 bindsym $mod+F11	exec --no-startup-id ducksearch
-bindsym $mod+F12	exec $term -e nmtui
+bindsym $mod+F12	exec $term -e vim ~/todo.md && exit 0
+#bindsym $mod+F12	exec $term -e nmtui
 
 # #---Arrow Keys---# #
 bindsym $mod+Left		focus left
@@ -333,7 +330,7 @@ bindsym Shift+Print 		exec --no-startup-id scrot -u
 bindsym $mod+Print		exec --no-startup-id dmenurecord
 bindsym $mod+Scroll_Lock	exec --no-startup-id "killall screenkey || screenkey"
 bindsym $mod+Delete		exec $stoprec
-bindsym XF86Launch1		exec --no-startup-id xset dpms force off
+bindsym XF86Launch1		exec $stoprec & xset dpms force off
 
 # #---Extra XF86 Keys---# #
 # These are the extra media keys that some keyboards have.
@@ -345,52 +342,20 @@ bindsym XF86AudioRaiseVolume	exec --no-startup-id lmc up 5
 bindsym Shift+XF86AudioRaiseVolume	exec --no-startup-id lmc up 10
 bindsym Control+XF86AudioRaiseVolume	exec --no-startup-id lmc up 1
 bindsym XF86PowerOff		exec --no-startup-id prompt "Shutdown computer?" "$shutdown"
-##bindsym XF86Copy		exec
-##bindsym XF86Open		exec
-##bindsym XF86Paste		exec
-##bindsym XF86Cut		exec
-##bindsym XF86MenuKB		exec
 bindsym XF86Calculator		exec $term -e R -q --no-save
-##bindsym XF86Sleep		This binding is typically mapped by systemd automatically.
-##bindsym XF86WakeUp		exec
 bindsym XF86Explorer		exec $term -e ranger
-##bindsym XF86Send		exec
-##bindsym XF86Xfer		exec
 bindsym XF86WWW			exec --no-startup-id $BROWSER
-##bindsym XF86DOS		exec
 bindsym XF86ScreenSaver		exec exec --no-startup-id lockscreen
-##bindsym XF86RotateWindows	exec
-##bindsym XF86TaskPane		exec
-##bindsym XF86Favorites		exec
 bindsym XF86MyComputer		exec $term -e ranger
-##bindsym XF86Back		exec
-##bindsym XF86Forward		exec
 bindsym XF86Eject		exec --no-startup-id dmenuumount
 bindsym XF86AudioNext		exec --no-startup-id lmc next
 bindsym XF86AudioPlay		exec --no-startup-id lmc toggle
 bindsym XF86AudioPrev		exec --no-startup-id lmc prev
 bindsym XF86AudioStop		exec --no-startup-id lmc toggle
-##bindsym XF86AudioRecord
 bindsym XF86AudioRewind		exec --no-startup-id lmc back 10
 bindsym XF86AudioForward	exec --no-startup-id lmc forward 10
-##bindsym XF86Phone		exec
-##bindsym XF86Tools		exec
-bindsym XF86HomePage		exec $BROWSER https://lukesmith.xyz
+bindsym XF86HomePage		exec $BROWSER https://bytecode.nl
 bindsym XF86Reload		restart
-##bindsym XF86ScrollUp		exec
-##bindsym XF86ScrollDown		exec
-##bindsym XF86New		exec
-##bindsym XF86LaunchA		exec
-##bindsym XF86LaunchB		exec
-##bindsym XF86Launch2		exec
-##bindsym XF86Launch3		exec
-##bindsym XF86Launch4		exec
-##bindsym XF86Launch5		exec
-##bindsym XF86Launch6		exec
-##bindsym XF86Launch7		exec
-##bindsym XF86Launch8		exec
-##bindsym XF86Launch9		exec
-#bindsym XF86AudioMicMute	exec $micmute
 bindsym XF86TouchpadToggle	exec --no-startup-id toggletouchpad
 bindsym XF86TouchpadOn		exec --no-startup-id synclient TouchpadOff=0
 bindsym XF86TouchpadOff		exec --no-startup-id synclient TouchpadOff=1
@@ -398,23 +363,12 @@ bindsym XF86Suspend		exec --no-startup-id lockscreen
 bindsym XF86Close		kill
 bindsym XF86WebCam		exec --no-startup-id camtoggle
 bindsym XF86Mail		exec $term -e neomutt && pkill -RTMIN+12 i3blocks
-bindsym XF86Messenger		exec $term -e weechat
 bindsym XF86Search		exec $BROWSER https://duckduckgo.com
-##bindsym XF86Go			exec
-##bindsym XF86Finance		exec
-##bindsym XF86Game		exec
 bindsym XF86Shop		exec $BROWSER https://ebay.com
-bindsym XF86MonBrightnessDown	exec --no-startup-id xbacklight -dec 15
-bindsym XF86MonBrightnessUp	exec --no-startup-id xbacklight -inc 15
+bindsym XF86KbdBrightnessDown exec $term sudo brightness -
+bindsym XF86KbdBrightnessUp exec $term sudo brightness +
 bindsym XF86AudioMedia		exec --no-startup-id $term -e ncmpcpp
 bindsym XF86Display		exec --no-startup-id arandr
-#bindsym XF86KbdLightOnOff	exec
-#bindsym XF86KbdBrightnessDown	exec
-#bindsym XF86KbdBrightnessUp	exec
-##bindsym XF86Reply		exec
-##bindsym XF86MailForward	exec
-##bindsym XF86Save		exec
 bindsym XF86Documents		exec $term -e ranger ~/Documents
-##bindsym XF86Battery		exec
-##bindsym XF86Bluetooth		exec
 bindsym XF86WLAN		exec $netrefresh
+#exec_always --no-startup-id notify-send -i ~/.scripts/pix/larbs.png '<b>Welcome to LARBS:</b> Press Super+F1 for the manual.' -t 10000
